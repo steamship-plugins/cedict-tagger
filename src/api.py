@@ -15,7 +15,7 @@ from steamship.plugin.outputs.block_and_tag_plugin_output import \
 from steamship.plugin.service import PluginRequest
 from steamship.plugin.tagger import Tagger
 
-from cedict_tagger import CeDictTrie
+from cedict_tagger import CeDictTrie, entry_to_dict
 
 
 class CEDictTaggerPluginConfig(Config):
@@ -49,7 +49,7 @@ class CEDictTaggerPlugin(Tagger, App):
                     end_idx=end,
                     kind="token",
                     name="ce-dict",
-                    value=entry
+                    value=entry_to_dict(entry)
                 ))
 
             # Create an output block for this block

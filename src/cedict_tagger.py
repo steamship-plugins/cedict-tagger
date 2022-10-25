@@ -1,7 +1,7 @@
 import pickle
 from collections import namedtuple
 from pathlib import Path
-from typing import List, Tuple
+from typing import Dict, List, Tuple
 
 from steamship import SteamshipError
 
@@ -18,6 +18,17 @@ Entry = namedtuple("Entry", [
     "pyacc",
     "zhuyin"
 ])
+
+def entry_to_dict(entry: Entry) -> Dict:
+    return {
+        "en": entry.en,
+        "trad": entry.trad,
+        "simp": entry.simp,
+        "pynum": entry.pynum,
+        "pyacc": entry.pyacc,
+        "zhuyin": entry.zhuyin,
+    }
+
 
 KEY_SPLIT = lambda word: "/".join([*word])
 KEY_JOIN = lambda word: word.replace("/", "")
