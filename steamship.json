@@ -1,0 +1,24 @@
+{
+  "type": "plugin",
+  "handle": "cedict-tagger",
+  "version": "1.0.3",
+  "description": "Tags Mandarin with matching CEDict entries.",
+  "author": "Steamship",
+  "entrypoint": "api.handler",
+  "public": true,
+  "configTemplate": {
+    "task": {
+      "type": "string"
+    },
+    "model": {
+      "type": "string"
+    }
+  },
+  "plugin": {
+    "type": "tagger",
+    "path": "/tag",
+    "isTrainable": false,
+    "transport": "jsonOverHttp",
+    "runPath": "/run"
+  }
+}
