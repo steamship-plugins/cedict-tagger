@@ -6,3 +6,4 @@ build/
 src/resources/*.json
 __pycache__
 .pytest_cache
+src/.steamship/secrets.toml
