@@ -33,32 +33,7 @@ def test_trie_subtree():
     assert trie.has_node('你好')
     assert not trie.has_node('你好嗎')
 
-def test_trie_search_hit_prefix():
-    trie = CeDictTrie.load()
-
-    from_trad = trie.tokenize('你好！這是我的名字。')
-
-    print(from_trad)
-
-
-
-
-
-
-
-def test_trie_search_prefix():
-    trie = CeDictTrie.load()
-
-    tags = tag_text('動物園', trie)
-    for tag in tags:
-        print(tag)
-
-
-    # long_word = get_exact(trie, '動物園')
-    # assert long_word
-    #
-    # prefix_also_word = get_exact(trie, '動物')
-    # assert prefix_also_word
-    #
-    # items = get_all(trie, '動物')
-    # print(items)
+# def test_trie_search_hit_prefix():
+#     trie = CeDictTrie.load()
+#
+#     from_trad = trie.tokenize('你好！這是我的名字。')
