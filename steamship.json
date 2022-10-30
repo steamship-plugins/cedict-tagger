@@ -1,7 +1,7 @@
 {
   "type": "plugin",
   "handle": "cedict-tagger",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Tags Mandarin with matching CEDict entries.",
   "author": "Steamship",
   "entrypoint": "api.handler",
@@ -20,5 +20,20 @@
     "isTrainable": false,
     "transport": "jsonOverHttp",
     "runPath": "/run"
+  },
+  "steamshipRegistry": {
+    "tagline": "Tag Chinese text with Pinyin, Bopomofo, and English translations using CEDict.",
+    "tagline2": "A simple trie-based matching algorithm is used for tagging.",
+    "usefulFor": "Useful for language learning tools building.",
+    "videoUrl": null,
+    "githubUrl": "https://github.com/steamship-plugins/cedict-tagger/",
+    "demoUrl": null,
+    "blogUrl": null,
+    "jupyterUrl": null,
+    "authorName": "Steamship",
+    "authorEmail": "hello@steamship.com",
+    "authorTwitter": "@GetSteamship",
+    "authorUrl": "https://www.steamship.com/",
+    "tags": ["Chinese", "education", "tokenization", "translation", "pinyin", "bopomofo" ,"CEDict"]
   }
 }

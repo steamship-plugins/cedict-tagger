@@ -1,4 +1,2 @@
-steamship==2.1.28
-pydantic==1.9.0
-toml==0.10.2
+steamship===2.2.0b0
 pygtrie==2.5.0

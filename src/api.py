@@ -4,15 +4,14 @@
 from typing import Type
 
 from steamship import Block, Tag
-from steamship.app import App, create_handler
 from steamship.base.error import SteamshipError
 from steamship.data.file import File
-from steamship.plugin.blockifier import Config
+from steamship.invocable import Config, create_handler
 from steamship.plugin.inputs.block_and_tag_plugin_input import \
     BlockAndTagPluginInput
 from steamship.plugin.outputs.block_and_tag_plugin_output import \
     BlockAndTagPluginOutput
-from steamship.plugin.service import PluginRequest
+from steamship.plugin.request import PluginRequest
 from steamship.plugin.tagger import Tagger
 
 from cedict_tagger import CeDictTrie, entry_to_dict
@@ -21,8 +20,7 @@ from cedict_tagger import CeDictTrie, entry_to_dict
 class CEDictTaggerPluginConfig(Config):
     pass
 
-class CEDictTaggerPlugin(Tagger, App):
-
+class CEDictTaggerPlugin(Tagger):
     def config_cls(self) -> Type[CEDictTaggerPluginConfig]:
         return CEDictTaggerPluginConfig
 
