@@ -65,10 +65,6 @@ class CeDictTrie(LongestMatchTree):
 
         tags = []
 
-        # TODO
-        # IF ABCD is a word but ABC isn't, this won't match ABCD.
-        # Need to do the full prefix search and do O(n) lookup across it?
-
         while start_i < len(text):
             # Advance the window while we still have a subtree
             longest_exact_match = None
@@ -88,8 +84,6 @@ class CeDictTrie(LongestMatchTree):
                 if still_matching:
                     end_i += 1
 
-            print(f"Longest match: {longest_exact_match} / {longest_prefix_match}")
-
             if not longest_exact_match and not longest_prefix_match:
                 start_i += 1
                 end_i = start_i + 1
@@ -97,9 +91,7 @@ class CeDictTrie(LongestMatchTree):
 
             if longest_exact_match == longest_prefix_match or (longest_exact_match and not longest_prefix_match):
                 # Easy!
-                print("Exact", longest_exact_match)
                 entry = self.get_exact(longest_exact_match)
-                print(entry)
                 new_start = start_i + len(longest_exact_match)
                 tag = (start_i, new_start, entry)
                 start_i = new_start
@@ -119,7 +111,6 @@ class CeDictTrie(LongestMatchTree):
                         length = len(item[0])
                         entry = item[1]
 
-                        print(f"Consider: {KEY_JOIN(item[0])}")
                         if longest_length is None or length >= longest_length:
                             longest_length = length
                             longest_entry = entry
@@ -143,6 +134,4 @@ class CeDictTrie(LongestMatchTree):
             end_i = start_i + 1
             tags.append(tag)
 
-        for tag in tags:
-            print(f"- {tag}")
         return tags
