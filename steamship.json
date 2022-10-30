@@ -1,19 +1,12 @@
 {
   "type": "plugin",
   "handle": "cedict-tagger",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Tags Mandarin with matching CEDict entries.",
   "author": "Steamship",
   "entrypoint": "api.handler",
   "public": true,
-  "configTemplate": {
-    "task": {
-      "type": "string"
-    },
-    "model": {
-      "type": "string"
-    }
-  },
+  "configTemplate": {},
   "plugin": {
     "type": "tagger",
     "path": "/tag",
@@ -29,11 +22,19 @@
     "githubUrl": "https://github.com/steamship-plugins/cedict-tagger/",
     "demoUrl": null,
     "blogUrl": null,
-    "jupyterUrl": null,
+    "jupyterUrl": "https://github.com/steamship-plugins/cedict-tagger/examples/cedict-tagger-python-client-demo.ipynb",
     "authorName": "Steamship",
     "authorEmail": "hello@steamship.com",
     "authorTwitter": "@GetSteamship",
     "authorUrl": "https://www.steamship.com/",
-    "tags": ["Chinese", "education", "tokenization", "translation", "pinyin", "bopomofo" ,"CEDict"]
+    "tags": [
+      "Chinese",
+      "education",
+      "tokenization",
+      "translation",
+      "pinyin",
+      "bopomofo",
+      "CEDict"
+    ]
   }
 }
