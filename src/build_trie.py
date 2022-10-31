@@ -76,12 +76,22 @@ def _map_entry(entry: CedictEntry) -> Optional[Entry]:
     fixed_pinyin = ' '.join(parts)
 
     try:
-        zhuyin = dragonmapper.transcriptions.pinyin_to_zhuyin(fixed_pinyin)
-        pyacc = dragonmapper.transcriptions.to_pinyin(fixed_pinyin, True)
+        zhuyin = dragonmapper.transcriptions.pinyin_to_zhuyin(fixed_pinyin).split(' ')
+        pyacc = [dragonmapper.transcriptions.to_pinyin(s, True) for s in zhuyin]
+        pinyin = [dragonmapper.transcriptions.to_pinyin(s, False) for s in zhuyin]
     except Exception as e:
         print(e)
         print(entry.traditional, entry.pinyin)
         return None
+
+    assert len(zhuyin) == len(pyacc)
+    assert len(pyacc) == len(pinyin)
+    if len(pinyin) != len(entry.traditional):
+        print(entry.traditional)
+        print(entry.pinyin)
+        # assert len(pinyin) == len(entry.traditional)
+
+    print(entry.meanings[0])
 
     return Entry(
         en=entry.meanings[0],

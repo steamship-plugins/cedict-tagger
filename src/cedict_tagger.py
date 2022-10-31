@@ -65,73 +65,15 @@ class CeDictTrie(LongestMatchTree):
 
         tags = []
 
-        while start_i < len(text):
-            # Advance the window while we still have a subtree
-            longest_exact_match = None
-            longest_prefix_match = None
-
-            still_matching = True
-            while still_matching:
-                still_matching = False
-                if end_i > len(text):
-                    break
-                if self.has_key(text[start_i:end_i]):
-                    still_matching = True
-                    longest_exact_match = text[start_i:end_i]
-                if self.has_node(text[start_i:end_i]):
-                    still_matching = True
-                    longest_prefix_match = text[start_i:end_i]
-                if still_matching:
-                    end_i += 1
-
-            if not longest_exact_match and not longest_prefix_match:
-                start_i += 1
-                end_i = start_i + 1
-                continue
-
-            if longest_exact_match == longest_prefix_match or (longest_exact_match and not longest_prefix_match):
-                # Easy!
-                entry = self.get_exact(longest_exact_match)
-                new_start = start_i + len(longest_exact_match)
-                tag = (start_i, new_start, entry)
-                start_i = new_start
-                end_i = start_i + 1
+        i = 0
+        while i < len(text):
+            longest_key, longest_value = self.get_longest_prefix(text[i:])
+            if longest_key is None:
+                i += 1
+                # Advance
+            else:
+                tag = (i, len(longest_key), longest_value)
                 tags.append(tag)
-                continue
-
-            # See if we can find a preifx..
-
-            longest_length = None
-            longest_entry = None
-            longest_entry_match = None
-
-            for item in self.get_all(longest_prefix_match):
-                try:
-                    if text[start_i:].index(KEY_JOIN(item[0])) == 0:
-                        length = len(item[0])
-                        entry = item[1]
-
-                        if longest_length is None or length >= longest_length:
-                            longest_length = length
-                            longest_entry = entry
-                            longest_entry_match = KEY_JOIN(item[0])
-                except ValueError:
-                    pass
-
-            # In case we got thrown on a wild goose chase because of a long phrase.
-            if longest_entry is None and longest_exact_match is None:
-                raise SteamshipError(message="Couldn't find prefix or exact match")
-
-            entry = longest_entry or self.get_exact(longest_exact_match)
-            query = longest_entry_match or longest_exact_match
-
-            if not entry:
-                raise SteamshipError(message="Couldn't find prefix or exact match - 2")
-
-            new_start = start_i + len(query)
-            tag = (start_i, new_start, entry)
-            start_i = new_start
-            end_i = start_i + 1
-            tags.append(tag)
+                i += len(longest_key)
 
         return tags

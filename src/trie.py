@@ -61,3 +61,14 @@ class LongestMatchTree():
 
     def has_node(self, key: str) -> bool:
         return self.trie.has_node(self.key_fn(key))
+
+    def get_longest_prefix(self, text: str):
+        i = 1
+        longest_value = None
+        longest_key = None
+        while i < len(text) and self.trie.has_node(self.key_fn(text[:i])):
+            if self.has_key(text[:i]):
+                longest_value = self.get_exact(text[:i])
+                longest_key = text[:i]
+            i += 1
+        return longest_key, longest_value

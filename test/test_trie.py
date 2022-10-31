@@ -12,11 +12,12 @@ def test_trie_search_hit_trad():
     from_simp = trie.get_exact('什么')
     assert trie.get_exact('名字')
 
+    assert trie.get_exact('參議院')
+
     assert from_trad
     assert from_simp
 
     assert from_trad == from_simp
-
 
 def test_trie_search_miss_trad():
     trie = CeDictTrie.load()
@@ -32,6 +33,9 @@ def test_trie_subtree():
     assert trie.has_node('你')
     assert trie.has_node('你好')
     assert not trie.has_node('你好嗎')
+
+
+
 
 # def test_trie_search_hit_prefix():
 #     trie = CeDictTrie.load()

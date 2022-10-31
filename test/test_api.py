@@ -46,3 +46,22 @@ def test_detect_language(text: str, expected: List[str]):
         assert tag.value.get('pynum')
         assert tag.value.get('pyacc')
         assert tag.value.get('zhuyin')
+
+def test_prefix_failure():
+    text = """參議院是上議院，有 100個席位，美國 50 個州，無論大小，各有兩名參議員代表本州。
+
+參議員任期六年，每兩年有三分之一的參議院議員面臨競選連任。
+
+眾議院有 435 個議席，每位眾議員代表各自所在州的一個特定選區，任期兩年。
+
+中期選舉包括所有眾議員議席。
+    """
+    out = req(text)
+    assert out.file
+    assert out.file.blocks
+
+    block = out.file.blocks[0]
+
+    tag = block.tags[0]
+    assert tag.start_idx == 0
+    assert tag.end_idx == 3

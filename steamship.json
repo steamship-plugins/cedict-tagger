@@ -1,7 +1,7 @@
 {
   "type": "plugin",
   "handle": "cedict-tagger",
-  "version": "1.0.5",
+  "version": "1.0.9",
   "description": "Tags Mandarin with matching CEDict entries.",
   "author": "Steamship",
   "entrypoint": "api.handler",
