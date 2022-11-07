@@ -11,7 +11,7 @@ def test_trie_search_hit_trad():
     from_trad = trie.get_exact('什麼')
     from_simp = trie.get_exact('什么')
     assert trie.get_exact('名字')
-
+    assert trie.get_exact('大餅')
     assert trie.get_exact('參議院')
 
     assert from_trad

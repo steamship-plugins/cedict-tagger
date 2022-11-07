@@ -93,6 +93,12 @@ def _map_entry(entry: CedictEntry) -> Optional[Entry]:
 
     print(entry.meanings[0])
 
+
+    en = entry.meanings[0]
+
+    # Todo: if '(' is > [0] then take prefix
+    # Todo: if surname, skip in favor of other def
+
     return Entry(
         en=entry.meanings[0],
         trad=entry.traditional,

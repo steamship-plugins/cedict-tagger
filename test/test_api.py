@@ -31,10 +31,36 @@ def test_detect_language(text: str, expected: List[str]):
     assert block.tags
     assert len(block.tags) == len(expected)
 
-    simps = [tag.value.get('simp') for tag in block.tags]
-    trads = [tag.value.get('trad') for tag in block.tags]
+    for tag in block.tags:
+        print(tag.value)
+        assert tag.kind == "token"
+        assert tag.name == "ce-dict"
+        assert tag.value
+        assert tag.value.get('en')
+        assert tag.value.get('trad')
+        assert tag.value.get('simp')
+        assert tag.value.get('pynum')
+        assert isinstance(tag.value.get('pynum'), list)
+        assert tag.value.get('pyacc')
+        assert isinstance(tag.value.get('pyacc'), list)
+        assert tag.value.get('zhuyin')
+        assert isinstance(tag.value.get('zhuyin'), list)
+
+    simps = [''.join(tag.value.get('simp')) for tag in block.tags]
+    trads = [''.join(tag.value.get('trad')) for tag in block.tags]
 
     assert expected == simps or expected == trads
+
+def test_suffix_edge_case():
+    """Test the app like a regular Python object."""
+    out = req("你好")
+    assert out.file
+    assert out.file.blocks
+
+    block = out.file.blocks[0]
+
+    assert block.tags
+    assert len(block.tags) == 1
 
     for tag in block.tags:
         assert tag.kind == "token"
@@ -44,8 +70,8 @@ def test_detect_language(text: str, expected: List[str]):
         assert tag.value.get('trad')
         assert tag.value.get('simp')
         assert tag.value.get('pynum')
-        assert tag.value.get('pyacc')
-        assert tag.value.get('zhuyin')
+        assert isinstance(tag.value.get('pynum'), list)
+        assert len(tag.value.get('pynum')) == 2
 
 def test_prefix_failure():
     text = """參議院是上議院，有 100個席位，美國 50 個州，無論大小，各有兩名參議員代表本州。

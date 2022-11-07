@@ -66,7 +66,7 @@ class LongestMatchTree():
         i = 1
         longest_value = None
         longest_key = None
-        while i < len(text) and self.trie.has_node(self.key_fn(text[:i])):
+        while i < len(text) + 1 and self.trie.has_node(self.key_fn(text[:i])):
             if self.has_key(text[:i]):
                 longest_value = self.get_exact(text[:i])
                 longest_key = text[:i]
