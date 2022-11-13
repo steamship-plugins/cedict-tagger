@@ -91,3 +91,26 @@ def test_prefix_failure():
     tag = block.tags[0]
     assert tag.start_idx == 0
     assert tag.end_idx == 3
+
+def test_bread():
+    text = "我喜歡麵包"
+    out = req(text)
+    assert out.file
+    assert out.file.blocks
+
+    assert len(out.file.blocks) == 1
+    block = out.file.blocks[0]
+
+    tags =  block.tags
+    assert len(tags) == 3
+
+    wo = tags[0]
+    xihuan = tags[1]
+    mianbao = tags[2]
+
+    assert wo.start_idx == 0
+    assert wo.end_idx == 1
+    assert xihuan.start_idx == 1
+    assert xihuan.end_idx == 3
+    assert mianbao.start_idx == 3
+    assert mianbao.end_idx == 5

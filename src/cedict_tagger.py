@@ -72,7 +72,7 @@ class CeDictTrie(LongestMatchTree):
                 i += 1
                 # Advance
             else:
-                tag = (i, len(longest_key), longest_value)
+                tag = (i, i + len(longest_key), longest_value)
                 tags.append(tag)
                 i += len(longest_key)
 
