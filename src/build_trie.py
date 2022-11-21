@@ -1,4 +1,5 @@
 """Processes CEDict and builds the trie Structure to the source data.trie file."""
+import logging
 import time
 from contextlib import contextmanager
 from pathlib import Path
@@ -11,6 +12,7 @@ from cedict_tagger import CeDictTrie, Entry
 
 DATA_PATH = Path(__file__).parent.parent / 'data'
 CEDICT_FILE = DATA_PATH / 'cedict_ts.u8'
+logging.getLogger().setLevel(logging.INFO)
 
 @contextmanager
 def _log_time(task_name: str):
@@ -28,6 +30,7 @@ def _load_ce_dict():
         entries = parser.parse()
         return entries
 
+OK_CHARS = ["·", "A", "B", "C", "D" , 'N', 'L', 3, 'T', 'P', 'M', 'K', 'N', 'L', 'U', 'B', 'X', 'V', 'G', 'H']
 
 U_FIXES = {
     'u:4': 'ǜ',
@@ -87,12 +90,15 @@ def _map_entry(entry: CedictEntry) -> Optional[Entry]:
     assert len(zhuyin) == len(pyacc)
     assert len(pyacc) == len(pinyin)
     if len(pinyin) != len(entry.traditional):
-        print(entry.traditional)
-        print(entry.pinyin)
-        # assert len(pinyin) == len(entry.traditional)
-
-    print(entry.meanings[0])
-
+        # ['wei2', 'ke4', 'duo1', 'yu3', 'guo3'] / 維克多·雨果
+        for i, c in enumerate(entry.traditional):
+            if c in OK_CHARS:
+                # Inert into the pronounciation
+                zhuyin.insert(i, c)
+                pyacc.insert(i, c)
+                pinyin.insert(i, c)
+        if len(pinyin) != len(entry.traditional):
+            logging.error(f"Pinyin length != Tradntional: {pinyin} / {entry.traditional}")
 
     en = entry.meanings[0]
 
@@ -114,8 +120,9 @@ def _build_trie(cedict):
         trie = CeDictTrie()
         for cedict_entry in cedict:
             entry = _map_entry(cedict_entry)
-            if entry:
+            if entry and not trie.should_skip(entry):
                 trie.add_entry(entry)
+        print("DOU", trie.get_exact("都"))
         return trie
 
 if __name__ == "__main__":

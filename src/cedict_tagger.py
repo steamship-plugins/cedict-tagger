@@ -1,3 +1,4 @@
+import logging
 import pickle
 from collections import namedtuple
 from pathlib import Path
@@ -46,13 +47,45 @@ class CeDictTrie(LongestMatchTree):
             trie = pickle.load(handle)
             return CeDictTrie(trie)
 
+    def should_skip(self, entry: Entry) -> bool:
+        if "variant of" in entry.en:
+            logging.info(f"[SKIP] Variant. Skip: {entry.en}")
+            return True
+        elif "surname" in entry.en:
+            logging.info(f"[SKIP] Surname. Skip: {entry.en}")
+            return True
+        elif self.get_exact(entry.trad) is not None:
+            logging.info(f"[SKIP] Exists. {entry.en} Existing: {self.get_exact(entry.trad).en}")
+            return True
+        return False
+
+    def trim(self, entry: Entry):
+        en = entry.en
+        chars = ["[", ",", ";", "("]
+        for char in chars:
+            i = en.find(char)
+            if i > 0:  # Skip the first one too
+                logging.info(f"[TRIM] {char} - {en}")
+                en = en[:i]
+        return Entry(
+            en,
+            entry.trad,
+            entry.simp,
+            entry.pynum,
+            entry.pyacc,
+            entry.zhuyin,
+        )
+
+
     def save(self):
         return super().save(TRIE_FILE)
 
     def add_entry(self, entry: Entry):
         # Want to avoid:
-        # variant of...Entry(en='variant of 是[shi4]', trad='昰', simp='是', pynum='shi4', pyacc='shì', zhuyin='ㄕˋ'))
         # the old names
+        if self.should_skip(entry):
+            return
+        self.trim(entry)
         if not self.get_exact(entry.trad):
             self.add(entry.trad, entry)
         if entry.simp != entry.trad:
