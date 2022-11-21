@@ -35,6 +35,16 @@ def test_trie_subtree():
     assert not trie.has_node('你好嗎')
 
 
+def test_trimming():
+    trie = CeDictTrie.load()
+    n = trie.get_exact('吧')
+    print(n.en)
+
+    n = trie.get_exact('哈')
+    print(n.en)
+
+    n = trie.get_exact('做')
+    print(n.en)
 
 
 # def test_trie_search_hit_prefix():

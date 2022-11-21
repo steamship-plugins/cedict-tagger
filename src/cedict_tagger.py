@@ -85,7 +85,7 @@ class CeDictTrie(LongestMatchTree):
         # the old names
         if self.should_skip(entry):
             return
-        self.trim(entry)
+        entry = self.trim(entry)
         if not self.get_exact(entry.trad):
             self.add(entry.trad, entry)
         if entry.simp != entry.trad:
